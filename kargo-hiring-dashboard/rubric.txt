@@ -1,0 +1,69 @@
+KARGO HIRING RUBRIC  (derived from the 8 past-hire CVs + performance ratings, NOT from the job descriptions)
+
+NOTE ON SOURCES
+Only the 8 hire CVs and the ratings table were available (no interview notes / outcome lines), so patterns come from what is written in the CVs.
+Exceeds Expectations: Rohan Desai, Sunita Krishnamurthy, Aditya Shetty, Meghna Tiwari, Lavanya Iyer
+Meets Expectations:   Vikram Nair, Rahul Bose
+Below Expectations:   Preetham Rao
+
+=====================================================================
+PATTERNS FOUND (what the Exceeds group shows that Meets/Below show weakly or not at all)
+=====================================================================
+P1. They did the ground-level operational work themselves, in freight/logistics, before or alongside their current role.
+    Rohan: 3 yrs running CHA documentation, 180+ shipments/month at JNPT. Sunita: 4 yrs BoL/SI/customs docs, 200+ shipments/month.
+    Meghna: 2.5 yrs freight-forwarder client docs, 15-20 live shipments/day. Aditya: 2 yrs at a JNPT terminal handling forwarder disputes,
+    berth and detention escalations. Lavanya: 3 yrs carrier allocation/exception handling at a 3PL.
+    Vikram (HR tech), Rahul (fintech marketing) and Preetham (e-commerce backend; only API-integrated with 3PLs) never did this work.
+
+P2. They started something nobody asked for, and other people kept using it.
+    Rohan: weekend BoL-check prototype, 30 colleagues using it in a month; Excel shipment tracker adopted by 12-person ops team in 2 weeks.
+    Sunita: redesigned intake workflow over a weekend when vendor changed format; team kept it permanently; SOPs adopted in full in 60 days.
+    Aditya: case-study programme now primary sales collateral for the full team. Meghna: 30-60-90 onboarding framework now used by the whole CS team.
+    Lavanya: visibility dashboard adopted by 2 other regional teams; first carrier scorecard process at the branch.
+    Vikram's PRD template was adopted only inside his own 4-PM team; Rahul's case studies and Preetham's dashboard were within their assigned remit.
+
+P3. They owned outcomes with no senior person above them absorbing the risk, and they wrote down what failed.
+    Rohan: "most senior engineer in the room", "without a product layer". Sunita: "limited oversight". Aditya: "no account manager layer".
+    Meghna: no escalation to management in 14 months. Lavanya: sole PM; wrote the outage post-mortem; killed 2 features on usage data.
+    Aditya ran a post-mortem on a lost 4-month deal that became standard practice. Vikram presents roadmaps up to a CTO/VP and sits in a PM team;
+    Preetham sits in a 12-engineer team with on-call cover and a lead above him.
+
+=====================================================================
+PRODUCT MANAGER RUBRIC  (weights sum to 100)
+=====================================================================
+
+Criterion name: Hands-On Operations Time
+What a strong candidate looks like: Has personally done day-to-day operational work in freight forwarding, customs/CHA, port, 3PL, carrier or supply-chain operations (e.g. prepared shipping documents, coordinated carriers, resolved shipment exceptions, handled forwarder accounts) for at least 12 months, with specifics such as volumes, document types, or named parties. WEAK: only built software for, sold to, or advised logistics companies without doing the operational work; or logistics appears only as a keyword/skill list.
+Weight: 30%
+
+Criterion name: Built It Unasked, Others Kept Using It
+What a strong candidate looks like: Names at least one tool, process, template or framework they started without being assigned, AND states that people beyond their own immediate team adopted or kept using it (who/how many/how long). Two or more such examples = top score. WEAK: improvements that were part of the assigned job, or adoption by only their own small team, or no evidence anyone used it.
+Weight: 30%
+
+Criterion name: Owned It With No Safety Net
+What a strong candidate looks like: Explicitly owned a product, account, process or function as the only or most senior person (sole owner, "no manager/layer above", no escalations) and made the calls themselves. WEAK: worked as one member of a larger team, presented to seniors for approval, or ownership is implied only by a title.
+Weight: 20%
+
+Criterion name: Writes Down What Failed
+What a strong candidate looks like: Shows at least one case where they killed a feature/initiative, ran a post-mortem, or documented a root cause of a loss or outage, and something changed afterwards (a process, a decision, a shared write-up). WEAK: only success stories; failures absent or mentioned without any consequence.
+Weight: 20%
+
+=====================================================================
+SENIOR PRODUCT MANAGER RUBRIC  (weights sum to 100; bar is higher, especially on independence)
+=====================================================================
+
+Criterion name: Hands-On Operations Time
+What a strong candidate looks like: At least 24 months of personally doing operational work in freight forwarding, customs/CHA, port, 3PL, carrier or supply-chain operations, and can show they understand the integration/data side of it (e.g. carrier or port-system coordination, FMS/TMS migrations, EDI/document data flows). WEAK: under a year of hands-on time, or domain exposure only through building/selling/advising.
+Weight: 20%
+
+Criterion name: Built It Unasked, Others Kept Using It
+What a strong candidate looks like: At least two self-started tools, processes or frameworks, each with evidence of adoption beyond their own team (other teams, the whole company, or customers), and at least one that became a standing practice that outlasted the initial effort. WEAK: a single example, adoption limited to their own team, or work done because it was assigned.
+Weight: 25%
+
+Criterion name: Owned It With No Safety Net
+What a strong candidate looks like: Across more than one role or a sustained period, was the sole or most senior owner of a product area, function or account base with nobody above making the calls, including hard trade-off decisions (what to build, stop, or refuse) and accountability for the consequences. Bonus: built or trained a team or set standards others followed. WEAK: senior title but decisions routed through committees, managers or peers; ownership of a slice inside a bigger team.
+Weight: 35%
+
+Criterion name: Writes Down What Failed
+What a strong candidate looks like: Repeated pattern (two or more instances) of killing work on evidence, running post-mortems, or documenting root causes, where the learning was turned into a process or rule that others now follow. WEAK: one isolated instance, or no changed process afterwards.
+Weight: 20%

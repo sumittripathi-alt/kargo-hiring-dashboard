@@ -1,16 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { COOKIE, tokenFor } from './lib/auth';
+import { NextResponse } from 'next/server';
 
-export async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
-  if (pathname.startsWith('/login') || pathname.startsWith('/api/login')) return NextResponse.next();
-  const pw = process.env.DASHBOARD_PASSWORD;
-  if (!pw) {
-    if (process.env.NODE_ENV === 'production') return new NextResponse('DASHBOARD_PASSWORD is not configured', { status: 503 });
-    return NextResponse.next();
-  }
-  if (req.cookies.get(COOKIE)?.value === (await tokenFor(pw))) return NextResponse.next();
-  if (pathname.startsWith('/api/')) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
-  return NextResponse.redirect(new URL('/login', req.url));
+// The dashboard is open (no password), at the founder's request.
+// Nothing is ever sent without an explicit "Confirm & send" click, and test sends are routed by EMAIL_OVERRIDE_TO.
+export function middleware() {
+  return NextResponse.next();
 }
-export const config = { matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'] };
+export const config = { matcher: [] };

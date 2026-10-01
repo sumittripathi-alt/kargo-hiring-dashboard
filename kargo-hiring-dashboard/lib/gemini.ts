@@ -14,7 +14,7 @@ export type GeminiOpts = {
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export async function geminiJson<T = any>(o: GeminiOpts): Promise<T> {
-  const key = process.env.GEMINI_API_KEY;
+  const key = (process.env.GEMINI_API_KEY || '').replace(/\s+/g, '');
   if (!key) throw new Error('GEMINI_API_KEY not set');
   const model = o.model || process.env.GEMINI_MODEL || 'gemini-3.5-flash';
   const parts: any[] = [];
@@ -24,6 +24,7 @@ export async function geminiJson<T = any>(o: GeminiOpts): Promise<T> {
     contents: [{ role: 'user', parts }],
     generationConfig: {
       temperature: o.temperature ?? 0,
+      seed: 7,
       responseMimeType: 'application/json',
       responseSchema: o.schema,
     },

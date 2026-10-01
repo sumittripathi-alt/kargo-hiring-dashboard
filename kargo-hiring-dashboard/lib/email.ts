@@ -5,7 +5,7 @@ export async function sendCandidateEmail(id: string) {
   if (error || !c) throw new Error('candidate not found');
   if (c.email_status === 'sent') throw new Error('already sent');
   if (!c.email_body || !c.email_subject) throw new Error('no draft to send');
-  const key = process.env.RESEND_API_KEY;
+  const key = (process.env.RESEND_API_KEY || '').replace(/\s+/g, '');
   if (!key) throw new Error('RESEND_API_KEY is not set');
 
   const intended: string = c.personal_details.email;

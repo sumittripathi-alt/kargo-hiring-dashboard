@@ -6,7 +6,7 @@ Stack: Next.js (Vercel) · Supabase Postgres · Gemini Flash · Resend.
 
 ## Setup
 1. Supabase: run `supabase/schema.sql`, then `supabase/seed.sql` (rubric from `rubric.txt`) in the SQL editor.
-2. Env vars (Vercel + `.env.local`, see `.env.example`): `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `GEMINI_API_KEY`, `DASHBOARD_PASSWORD`; later `RESEND_API_KEY` and `EMAIL_OVERRIDE_TO` (your own address while testing).
+2. Env vars (Vercel + `.env.local`, see `.env.example`): `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `GEMINI_API_KEY`; later `RESEND_API_KEY` and `EMAIL_OVERRIDE_TO` (your own address while testing).
 3. `npm install && npm run dev`. `.env.local` is git-ignored.
 
 ## Privacy design (DPDP)

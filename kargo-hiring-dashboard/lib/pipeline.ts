@@ -1,12 +1,14 @@
 import { createHash } from 'crypto';
 import { db } from './supabase';
-import { fileToText } from './parse';
+import { fileToText, sanitize } from './parse';
 import { findEmails, findPhone, fallbackName, scrub, leakCheck, PII } from './pii';
 import { geminiJson, S } from './gemini';
 import { loadRubric, weightedTotal, Role, Criterion } from './rubric';
 
 const FOUNDER = 'Arjun Mehta, Founder, Kargo';
 export const TOP_N = () => parseInt(process.env.TOP_N || '5', 10);
+// Safety floor: a top-N slot is not enough for an interview invite if the role score is below this (0 disables).
+export const MIN_INVITE_SCORE = () => { const v = parseFloat(process.env.MIN_INVITE_SCORE ?? '25'); return Number.isFinite(v) ? v : 25; };
 
 /* ---------- Step 0: text + PII split (the only step that sees identifiers) ---------- */
 async function findIdentifiers(raw: string, fileName: string, buf: Buffer, mime: string): Promise<PII> {
@@ -27,7 +29,8 @@ async function findIdentifiers(raw: string, fileName: string, buf: Buffer, mime:
       inlineFile: isPdf ? { mimeType: 'application/pdf', dataBase64: buf.toString('base64') } : undefined,
     });
   } catch (e) {
-    console.warn('identifier extraction via Gemini failed, using fallback:', (e as Error).message);
+    // Fail closed: guessing the name with regexes can leave the real name in the stored CV text.
+    throw new Error('Could not extract contact details (' + (e as Error).message + '); nothing was stored');
   }
   const email = (ai.email || '').trim().toLowerCase().match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) ? ai.email!.trim().toLowerCase() : findEmails(raw)[0] || '';
   let phone = (ai.phone || '').replace(/\D/g, '').replace(/^91(?=\d{10}$)/, '');
@@ -52,7 +55,9 @@ export async function ingest(buf: Buffer, fileName: string, mime: string, role: 
     raw = r.text;
     if (raw.replace(/\s/g, '').length < 200) throw new Error('CV has too little text to read');
   }
-  const pii = await findIdentifiers(raw, fileName, buf, mime);
+  raw = sanitize(raw);
+  const found = await findIdentifiers(raw, fileName, buf, mime);
+  const pii = { name: sanitize(found.name).trim(), email: sanitize(found.email).trim(), phone: sanitize(found.phone).trim() };
   const clean = scrub(raw, pii);
   const leaks = leakCheck(clean, pii);
   if (leaks.length) throw new Error('PII scrub incomplete (' + leaks.join(', ') + '); refusing to store');
@@ -146,7 +151,7 @@ async function makeEmail(r: Row, type: 'invite' | 'reject') {
       `You draft emails from ${FOUNDER}, a Series A logistics SaaS in Mumbai, to job applicants. Warm, direct, human, under 140 words, plain text. ` +
       'Start with exactly "Dear {{NAME}}," (keep that placeholder verbatim, it is replaced by code). ' +
       `End with a sign-off from ${FOUNDER}. ` +
-      'Reference ONE or TWO specific things from the CV so it is clearly not a template. Never invent facts. Do not mention scores, rubrics, rankings, AI, or other candidates. ' +
+      'Reference ONE or TWO specific things from the CV so it is clearly not a template. Never invent facts and never overclaim fit (no "exactly what we need"). Do not mention scores, rubrics, rankings, AI, or other candidates. ' +
       (type === 'invite'
         ? 'This is an INTERVIEW INVITE: say what stood out, propose a 30-minute conversation, ask them to reply with times that work. Do not invent dates or links.'
         : 'This is a REJECTION: thank them sincerely for applying for the role, be honest that they are not moving forward right now, name one genuine strength, and wish them well. No false promises of future contact.'),
@@ -171,7 +176,7 @@ export async function finalize(limit = 6) {
     const ranked = rows.filter((r) => r.applied_role === role).sort((a, b) => roleScore(b) - roleScore(a));
     ranked.forEach((r, i) => {
       if (r.tier_override) return;
-      const want = i < N ? 'invite' : 'reject';
+      const want = i < N && roleScore(r) >= MIN_INVITE_SCORE() ? 'invite' : 'reject';
       if (r.tier !== want) { r.tier = want; }
     });
   }
